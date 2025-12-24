@@ -3,7 +3,7 @@
 #include "MyMath.h"
 #include "PlayerBullet.h"
 #include <list>
-#include "EnemyBullet.h"
+
 class EnemyBullet;
 class Enemy;
 class Player
@@ -92,7 +92,7 @@ public:
 	#pragma endregion
 
 
-
+	int playerHp;
 	// 初期化
 	void Initialize(KamataEngine::Model* model, KamataEngine::Camera* camera, KamataEngine::Vector3& position);
 
@@ -109,11 +109,11 @@ public:
 	// 弾
 	//std::list<PlayerBullet*> bullets_;
 
-	// 攻撃
-	void Attack();
+	
 
 	~Player();
 
+	
 	// Getter / 状態確認
 	int GetHP() const { return hp_; }
 	int GetMaxHP() const { return maxHP_; }
@@ -133,6 +133,6 @@ private:
 
 	KamataEngine::Vector3 velocity_ = {};
 
-	int maxHP_ = 10;
+	int maxHP_ = 25000;
 	int hp_ = maxHP_;
 };

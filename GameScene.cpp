@@ -1,6 +1,6 @@
 #include "GameScene.h"
 #include "MyMath.h"
-
+#include "CameraController.h"
 #include "Fade.h"
 
 #include "Player.h"
@@ -27,6 +27,10 @@ void GameScene::Initialize()
 	#pragma endregion
 
 
+	// デバックカメラの生成
+	debugCamera_ = new DebugCamera(100, 200);
+
+
 
 	// playerHPのスプライト
 	playerhpHandle_ = TextureManager::Load("hp.png");
@@ -49,6 +53,7 @@ void GameScene::Initialize()
 	
 	//プレイヤー
 	modelPlayer_ = Model::CreateFromOBJ("player", true);
+	
 	// プレイヤーの弾
 	modelPlayerBullet_ = Model::CreateFromOBJ("bullet", true);
 	// パーティクルの3Dモデルデータの生成
@@ -56,10 +61,12 @@ void GameScene::Initialize()
 
 	// プレイヤーの生成
 	player_ = new Player();
+	
+	
 	// プレイヤーの座標を指定
-	KamataEngine::Vector3 playerPosition = {-10, 1, 1};
+	KamataEngine::Vector3 playerPosition = {-10, 1, 0};
 	player_->Initialize(modelPlayer_, &camera_, playerPosition);
-
+	
 
 	// プレイヤーの弾
 	playerBullet_ = new PlayerBullet();
@@ -86,7 +93,7 @@ void GameScene::Initialize()
 	// 敵の生成
 	enemy_ = new Enemy();
 	// 敵の座標
-	KamataEngine::Vector3 enemyPosition = {35, 5, 5};
+	KamataEngine::Vector3 enemyPosition = {35, 5, 0};
 	enemy_->Initialize(modelEnemy_, &camera_, enemyPosition);
 
 	// 敵の弾
@@ -112,6 +119,14 @@ void GameScene::Initialize()
 
 
 
+	// カメラコントローラの初期化
+	cameraController_ = new CameraController;
+	cameraController_->Initialize();
+	cameraController_->SetTarget(player_);
+	cameraController_->Reset();
+
+	CameraController::Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
+	cameraController_->SetMovableArea(cameraArea);
 
 
 
@@ -132,6 +147,11 @@ void GameScene::Update()
 {
 	// フェード
 	fade_->Update();
+
+	//デバッグカメラの更新
+	debugCamera_->Update();
+
+
 
 	#pragma region プレイヤー
 
@@ -273,7 +293,7 @@ void GameScene::Update()
 
 	
 #ifdef _DEBUG
-	if (Input::GetInstance()->TriggerKey(DIK_0)) 
+	if (Input::GetInstance()->TriggerKey(DIK_0))
 	{
 		isDebugCameraActive_ = !isDebugCameraActive_;
 	}
@@ -288,15 +308,8 @@ void GameScene::Update()
 		camera_.TransferMatrix();
 	} else	
 	{
-		if (cameraController_)
-		{
-			camera_.matView = cameraController_->GetViewProjection().matView;
-			camera_.matProjection = cameraController_->GetViewProjection().matProjection;
-			camera_.TransferMatrix();
-		} else
-		{
-			// Handle the error, log, or set a default camera state
-		}
+		camera_.UpdateMatrix();
+		
 	}
 	
 }
@@ -394,6 +407,67 @@ void GameScene::ChangePhase()
 	}
 }
 
+
+void GameScene::CheckAllCollisions()
+{
+#pragma region プレイヤーと敵
+	// 判定対象1と2の座標
+	AABB aabb1, aabb2;
+	//  プレイヤー
+	aabb1 = player_->GetAABB();
+	// 敵
+	aabb2 = enemy_->GetAABB();
+	// AABB同士の交差判定
+	if (IsCollition(aabb1, aabb2))
+	{
+		//  プレイヤーの衝突時関数を呼び出す
+		player_->OnCollition(enemy_);
+		// 敵の衝突時関数を呼び出す
+		enemy_->OnCollition(player_);
+	}
+#pragma endregion
+
+#pragma region プレイヤーの弾と敵
+	// 判定対象1と2の座標
+	AABB2 aabb3, aabb4;
+	// 敵
+	aabb3 = enemy_->GetAABB2();
+
+	for (PlayerBullet* bullet : bullets_) 
+	{
+		// プレイヤーの弾
+		aabb4 = bullet->GetAABB2();
+		if (IsCollition2(aabb3, aabb4)) 
+		{
+			// 自キャラの衝突時関数を呼び出す
+			bullet->OnCollition2(enemy_);
+			// 敵の衝突時関数を呼び出す
+			enemy_->OnCollition2(bullet);
+		}
+	}
+#pragma endregion
+
+#pragma region 敵の弾とプレイヤー
+
+	// 判定対象1と2の座標
+	AABB3 aabb5, aabb6;
+
+	aabb5 = player_->GetAABB3();
+
+	for (EnemyBullet* Ebullet : E_bullets_) 
+	{
+		// 敵の弾
+		aabb6 = Ebullet->GetAABB3();
+		if (IsCollition3(aabb5, aabb6))
+		{
+
+			Ebullet->OnCollition3(player_);
+
+			player_->OnCollition3(Ebullet);
+		}
+	}
+#pragma endregion
+}
 
 
 
@@ -533,72 +607,4 @@ GameScene::~GameScene()
 
 	// デバッグカメラの解放
 	delete debugCamera_;
-}
-
-void GameScene::CheckAllCollisions()
-{
-	#pragma region プレイヤーと敵
-	// 判定対象1と2の座標
-	AABB aabb1, aabb2;
-	//  プレイヤー
-	aabb1 = player_->GetAABB();
-	// 敵
-	aabb2 = enemy_->GetAABB();
-	// AABB同士の交差判定
-	if (IsCollition(aabb1, aabb2))
-	{
-		//  プレイヤーの衝突時関数を呼び出す
-		player_->OnCollition(enemy_);
-		// 敵の衝突時関数を呼び出す
-		enemy_->OnCollition(player_);
-	}
-	#pragma endregion
-
-
-	#pragma region プレイヤーの弾と敵
-	// 判定対象1と2の座標
-	AABB2 aabb3, aabb4;
-	// 敵
-	aabb3 = enemy_->GetAABB2();
-
-	for (PlayerBullet* bullet : bullets_)
-	{
-		// プレイヤーの弾
-		aabb4 = bullet->GetAABB2();
-		if (IsCollition2(aabb3, aabb4))
-		{
-			// 自キャラの衝突時関数を呼び出す
-			bullet->OnCollition2(enemy_);
-			// 敵の衝突時関数を呼び出す
-			enemy_->OnCollition2(bullet);
-		}
-	}
-	#pragma endregion
-
-
-	#pragma region 敵の弾とプレイヤー
-
-	// 判定対象1と2の座標
-	AABB3 aabb5, aabb6;
-
-	aabb5 = player_->GetAABB3();
-
-	for (EnemyBullet* Ebullet : E_bullets_)
-	{
-		// 敵の弾
-		aabb6 = Ebullet->GetAABB3();
-		if (IsCollition3(aabb5, aabb6)) 
-		{
-
-			Ebullet->OnCollition3(player_);
-
-			player_->OnCollition3(Ebullet);
-		}
-	}
-#pragma endregion
-
-
-
-
-
 }

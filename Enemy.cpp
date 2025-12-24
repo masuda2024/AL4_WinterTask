@@ -5,7 +5,7 @@
 #include<algorithm>
 #include<list>
 #define NOMINMAX
-
+#include "MapChipField.h"
 
 #include "EnemyBullet.h"
 

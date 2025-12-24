@@ -1,3 +1,4 @@
+#include"KamataEngine.h"
 #include "Player.h"
 #include"GameScene.h"
 #include"cassert"
@@ -5,7 +6,7 @@
 #include<algorithm>
 #include<list>
 #define NOMINMAX
-
+#include "MapChipField.h"
 
 using namespace KamataEngine;
 using namespace MathUtility;
@@ -26,6 +27,8 @@ void Player::Initialize(Model* model, Camera* camera, KamataEngine::Vector3& pos
 	worldTransform_.rotation_.y = std::numbers::pi_v<float> / 2.0f;
 
 	worldTransform_.Initialize();
+
+	playerHp = 25000;
 }
 
 void Player::Update() 
@@ -78,6 +81,11 @@ void Player::Update()
 	// アフィン変換行列
 	worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 	worldTransform_.TransferMatrix(); // プレイヤーの座標の計算
+
+	if (hp_ < 0)
+	{
+		isDead_ = true;
+	}
 }
 
 // プレイヤーの描画(敵当たったら非表示になる)
@@ -152,7 +160,7 @@ void Player::OnCollition(const Enemy* enemy)
 {
 	(void)enemy;
 
-	// ここで受けるダメージ量を決定（例: 1）
+	 // ここで受けるダメージ量を決定（例: 1）
 	const int damage = 1;
 
 	hp_ -= damage;
@@ -163,12 +171,10 @@ void Player::OnCollition(const Enemy* enemy)
 		// 必要なら死亡時の処理（アニメ・音・フラグ等）
 	}
 
-	// デスフラグを立てる
-	// isDead_ = true;
 
-	// ジャンプ開始
-	// velocity_ += KamataEngine::Vector3(0, kJumpAcceleration, 0);
 }
+
+
 
 AABB3 Player::GetAABB3() 
 {
@@ -185,11 +191,8 @@ AABB3 Player::GetAABB3()
 void Player::OnCollition3(const EnemyBullet* enemyBullet) 
 {
 	(void)enemyBullet;
-
-	// ここで受けるダメージ量を決定（例: 1）
-	const int damage = 1;
-
-	hp_ -= damage;
+	playerHp -= 100;
+	hp_ -= 100;
 	if (hp_ <= 0)
 	{
 		hp_ = 0;
@@ -197,9 +200,4 @@ void Player::OnCollition3(const EnemyBullet* enemyBullet)
 		// 必要なら死亡時の処理（アニメ・音・フラグ等）
 	}
 
-	// デスフラグを立てる
-	// isDead_ = true;
-
-	// ジャンプ開始
-	// velocity_ += KamataEngine::Vector3(0, kJumpAcceleration, 0);
 }

@@ -5,6 +5,10 @@
 #include "Enemy.h"
 #include "GameScene.h"
 
+#include <list>
+#define NOMINMAX
+#include "MapChipField.h"
+
 using namespace KamataEngine;
 using namespace MathUtility;
 
@@ -79,25 +83,9 @@ AABB3 EnemyBullet::GetAABB3()
 }
 
 // プレイヤーと敵の弾の衝突
-void EnemyBullet::OnCollition3(const Player* player) { (void)player; }
-
-#pragma endregion
-
-#pragma region 敵の弾とプレイヤーの弾の当たり判定
-
-AABB4 EnemyBullet::GetAABB4()
-{
-	KamataEngine::Vector3 worldPos = GetWorldPosition();
-
-	AABB4 aabb;
-
-	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z - kWidth / 2.0f};
-	aabb.max = {worldPos.x + kWidth / 2.0f, worldPos.y + kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
-
-	return aabb;
+void EnemyBullet::OnCollition3(const Player* player)
+{ 
+	(void)player;
 }
-
-// プレイヤーと敵の弾の衝突
-void EnemyBullet::OnCollition4(const PlayerBullet* playerBullet) { (void)playerBullet; }
 
 #pragma endregion

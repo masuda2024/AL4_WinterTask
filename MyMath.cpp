@@ -54,7 +54,7 @@ bool IsCollition3(const AABB3& aabb5, const AABB3& aabb6)
 	       (aabb5.min.z <= aabb6.max.z && aabb5.max.z >= aabb6.min.z);   // z軸
 }
 
-//敵の弾とプレイヤーの弾の当たり判定
+// 敵の弾とプレイヤーの当たり判定
 bool IsCollition4(const AABB4& aabb7, const AABB4& aabb8) 
 {
 	return (aabb7.min.x <= aabb8.max.x && aabb7.max.x >= aabb8.min.x) && // x軸

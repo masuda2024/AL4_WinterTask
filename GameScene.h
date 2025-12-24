@@ -62,6 +62,8 @@ private:
 	Player* player_ = nullptr;
 	KamataEngine::Model* modelPlayer_ = nullptr;
 
+	
+
 	#pragma region プレイヤーの弾
 	// 自キャラの弾
 	KamataEngine::Model* modelPlayerBullet_ = nullptr;
@@ -133,6 +135,8 @@ private:
 
 
 	#pragma region システム
+
+	
 
 	// 全ての当たり判定
 	void CheckAllCollisions();

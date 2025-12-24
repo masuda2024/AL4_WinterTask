@@ -46,14 +46,6 @@ public:
 
 #pragma endregion
 
-#pragma region プレイヤーの弾と敵の弾の衝突
-
-	// AABBを取得
-	AABB4 GetAABB4();
-	// 衝突応答
-	void OnCollition4(const PlayerBullet* playerBullet);
-
-#pragma endregion
 
 
 private:
