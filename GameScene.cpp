@@ -36,10 +36,17 @@ void GameScene::Initialize()
 	playerhpHandle_ = TextureManager::Load("hp.png");
 	playerhpSprite_ = KamataEngine::Sprite::Create(playerhpHandle_, {0, 680});
 
+	_playerhpHandle_ = TextureManager::Load("hp_.png");
+	_playerhpSprite_ = KamataEngine::Sprite::Create(_playerhpHandle_, {0, 680});
+
+
+
 	// enemyHPのスプライト
 	enemyhpHandle_ = TextureManager::Load("Ehp.png");
 	enemyhpSprite_ = KamataEngine::Sprite::Create(enemyhpHandle_, {1050, 0});
 
+	_enemyhpHandle_ = TextureManager::Load("Ehp_.png");
+	_enemyhpSprite_ = KamataEngine::Sprite::Create(_enemyhpHandle_, {1050, 0});
 
 
 
@@ -158,9 +165,13 @@ void GameScene::Update()
 	// プレイヤーHP
 	float hpRatio = (float)player_->GetHP() / (float)player_->GetMaxHP();
 	hpRatio = std::clamp(hpRatio, 0.0f, 1.0f);
-	playerhpSprite_->SetSize({hpRatio * 200.0f, 20.0f}); // 例：幅200px、高さ20px
+	playerhpSprite_->SetSize({hpRatio * 300.0f, 30.0f}); // 例：幅200px、高さ20px
 	playerhpSprite_->SetPosition({0, 0});         
 	
+	_playerhpSprite_->SetSize({300.0f, 30.0f}); // 例：幅200px、高さ20px
+	_playerhpSprite_->SetPosition({0, 0});      
+
+
 	player_->Update();
 	//プレイヤーの攻撃を呼び出す
 	PlayerAttack();
@@ -178,8 +189,11 @@ void GameScene::Update()
 	// 敵HP
 	float enemyHpRatio = (float)enemy_->E_GetHP() / (float)enemy_->E_GetMaxHP();
 	enemyHpRatio = std::clamp(enemyHpRatio, 0.0f, 1.0f);
-	enemyhpSprite_->SetSize({enemyHpRatio * 200.0f, 20.0f}); // 幅200px、高さ20px
-	enemyhpSprite_->SetPosition({1060, 10});                 // 左上少し下に表示
+	enemyhpSprite_->SetSize({enemyHpRatio * 300.0f, 30.0f}); // 幅200px、高さ20px
+	enemyhpSprite_->SetPosition({980, 0});                 // 左上少し下に表示
+
+	_enemyhpSprite_->SetSize({300.0f, 30.0f}); // 幅200px、高さ20px
+	_enemyhpSprite_->SetPosition({980, 0});                 // 左上少し下に表示
 
 
 	enemy_->Update();
@@ -476,9 +490,11 @@ void GameScene::Draw()
 {
 	Sprite::PreDraw();
 	
-	
+	_playerhpSprite_->Draw();
 	playerhpSprite_->Draw();
 
+	
+	_enemyhpSprite_->Draw();
 	enemyhpSprite_->Draw();
 
 

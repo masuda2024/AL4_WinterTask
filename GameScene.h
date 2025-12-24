@@ -89,6 +89,8 @@ private:
 	// スプライト
 	Sprite* playerhpSprite_ = nullptr;
 
+	uint32_t _playerhpHandle_ = 0;
+	Sprite* _playerhpSprite_ = nullptr;
 	#pragma endregion
 
 	#pragma region 敵
@@ -122,7 +124,9 @@ private:
 	uint32_t enemyhpHandle_ = 0;
 	// スプライト
 	Sprite* enemyhpSprite_ = nullptr;
-
+	
+	uint32_t _enemyhpHandle_ = 0;
+	Sprite* _enemyhpSprite_ = nullptr;
 	#pragma endregion 
 
 
