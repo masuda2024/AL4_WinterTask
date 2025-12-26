@@ -29,6 +29,9 @@ void Player::Initialize(Model* model, Camera* camera, KamataEngine::Vector3& pos
 	worldTransform_.Initialize();
 
 	playerHp = 25000;
+
+	// 戦闘-4 爆発1
+	Explosion_ = Audio::GetInstance()->LoadWave("Sounds/Explosion1.mp3");
 }
 
 void Player::Update() 
@@ -197,6 +200,7 @@ void Player::OnCollition3(const EnemyBullet* enemyBullet)
 	{
 		hp_ = 0;
 		isDead_ = true;
+		Audio::GetInstance()->PlayWave(Explosion_);
 		// 必要なら死亡時の処理（アニメ・音・フラグ等）
 	}
 

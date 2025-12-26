@@ -135,4 +135,6 @@ private:
 
 	int maxHP_ = 25000;
 	int hp_ = maxHP_;
+
+	uint32_t Explosion_ = 0;
 };

@@ -8,7 +8,7 @@ void Tutorial::Initialize()
 	//textureHandle_ = TextureManager::Load("explanation.png");
 	//tutorialSprite_ = KamataEngine::Sprite::Create(textureHandle_, {0, 0});
 
-	//Botan_ = Audio::GetInstance()->LoadWave("Sounds/BossBotan.mp3");
+	Botan_ = Audio::GetInstance()->LoadWave("Sounds/Decision4.mp3");
 
 	// カメラの初期化
 	camera_.Initialize();
@@ -31,7 +31,7 @@ void Tutorial::Update()
 		// タイトルシーンの終了条件
 		if (Input::GetInstance()->TriggerKey(DIK_E))
 		{
-			//Audio::GetInstance()->PlayWave(Botan_);
+			Audio::GetInstance()->PlayWave(Botan_);
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);

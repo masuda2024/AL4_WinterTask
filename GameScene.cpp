@@ -27,6 +27,17 @@ void GameScene::Initialize()
 	#pragma endregion
 
 
+
+
+
+	//サウンド
+	
+	//戦闘-4 大砲1
+	P_Cannon_ = Audio::GetInstance()->LoadWave("Sounds/Cannon1.mp3");
+	
+
+
+
 	// デバックカメラの生成
 	debugCamera_ = new DebugCamera(100, 200);
 
@@ -337,7 +348,7 @@ void GameScene::PlayerAttack()
 	// スペースキーを押して弾を撃つ
 	if (Input::GetInstance()->TriggerKey(DIK_SPACE))
 	{
-
+		Audio::GetInstance()->PlayWave(P_Cannon_);
 		// 弾の速度
 		const float kBulletSpeed = 1.0f;
 		Vector3 velocity = {kBulletSpeed, 0.0f, 0.0f};
@@ -380,6 +391,7 @@ void GameScene::ChangePhase()
 #pragma region プレイヤー
 		if (player_->IsDead() == true)
 		{
+			
 			// デス演出フェーズに切り替え
 			phase_ = Phase::kDeath;
 
@@ -395,6 +407,7 @@ void GameScene::ChangePhase()
 #pragma region 敵
 		if (enemy_->IsEnemyDead() == true)
 		{
+			
 			// デス演出フェーズに切り替え
 			phase_ = Phase::kEnemyDeath;
 		}

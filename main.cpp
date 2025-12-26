@@ -65,7 +65,7 @@ uint32_t GOVoiceHandle_ = 0;
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 {
 	//タイトルバー
-	KamataEngine::Initialize(L"LE2D_19_マスダ_アキヒロ_AL4");
+	KamataEngine::Initialize(L"LE2D_19_マスダ_アキヒロ_ナイトバトル");
 	// ImGuiManagerインスタンスの取得
 	ImGuiManager* imguiManager = ImGuiManager::GetInstance();
 

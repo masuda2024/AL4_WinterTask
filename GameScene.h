@@ -192,4 +192,9 @@ private:
 
 	// スプライト
 	KamataEngine::Sprite* sprite_ = nullptr;
+
+
+	uint32_t P_Cannon_ = 0;
+	
+
 };

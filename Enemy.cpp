@@ -45,6 +45,10 @@ void Enemy::Initialize(Model* model, Camera* camera, KamataEngine::Vector3& posi
 	////////////////////////////////////////////
 	////敵左右移動追加終///////////////////////
 	/////////////////////////////////////////////
+
+
+	// 戦闘 - 4 爆発1 
+	Explosion_ = Audio::GetInstance()->LoadWave("Sounds/Explosion1.mp3");
 }
 
 void Enemy::Update()
@@ -122,6 +126,7 @@ void Enemy::Update()
 	if (enemyHp < 0)
 	{
 		isenemyDead_ = true;
+		
 	}
 
 	// プレイヤーの座標の計算
@@ -189,6 +194,7 @@ void Enemy::OnCollition2(const PlayerBullet* playerBullet)
 	{
 		hp_ = 0;
 		isenemyDead_ = true;
+		Audio::GetInstance()->PlayWave(Explosion_);
 	}
 }
 

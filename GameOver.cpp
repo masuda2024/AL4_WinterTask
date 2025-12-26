@@ -4,10 +4,10 @@ using namespace KamataEngine;
 
 void GameOver::Initialize()
 {
-	//textureHandle_ = TextureManager::Load("gameover.png");
-	//overSprite_ = Sprite::Create(textureHandle_, {0, 0});
+	textureHandle_ = TextureManager::Load("GameOver.png");
+	overSprite_ = Sprite::Create(textureHandle_, {0, 0});
 
-	//Botan_ = Audio::GetInstance()->LoadWave("Sounds/BossBotan.mp3");
+	Botan_ = Audio::GetInstance()->LoadWave("Sounds/Decision4.mp3");
 
 	// カメラの初期化
 	camera_.Initialize();
@@ -30,7 +30,7 @@ void GameOver::Update()
 		// タイトルシーンの終了条件
 		if (Input::GetInstance()->TriggerKey(DIK_E))
 		{
-			//Audio::GetInstance()->PlayWave(Botan_);
+			Audio::GetInstance()->PlayWave(Botan_);
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
@@ -64,7 +64,7 @@ void GameOver::Draw()
 
 	Sprite::PreDraw(dxCommon->GetCommandList());
 
-	//overSprite_->Draw();
+	overSprite_->Draw();
 
 	Sprite::PostDraw();
 
@@ -77,5 +77,5 @@ GameOver::~GameOver()
 
 	//  フェード
 	delete fade_;
-	//delete overSprite_;
+	delete overSprite_;
 }

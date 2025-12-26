@@ -32,7 +32,7 @@ public:
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 	// スプライト
-	//KamataEngine::Sprite* titleSprite_ = nullptr;
+	KamataEngine::Sprite* titleSprite_ = nullptr;
 
 private:
 	
@@ -48,5 +48,5 @@ private:
 	// 現在のフェーズ
 	Phase phase_ = Phase::kFadeIn;
 
-	//uint32_t Botan_ = 0;
+	uint32_t Botan_ = 0;
 };

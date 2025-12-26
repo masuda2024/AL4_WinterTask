@@ -37,8 +37,7 @@ public:
 private:
 	// 3Dモデルデータ
 	KamataEngine::Model* model_ = nullptr;
-	// モデルプレイヤー
-	// KamataEngine::Model* modelPlayer_ = nullptr;
+	
 	// カメラ
 	KamataEngine::Camera camera_;
 	// ワールドトランスフォーム
@@ -50,5 +49,5 @@ private:
 	// 現在のフェーズ
 	Phase phase_ = Phase::kFadeIn;
 
-	//uint32_t Botan_ = 0;
+	uint32_t Botan_ = 0;
 };

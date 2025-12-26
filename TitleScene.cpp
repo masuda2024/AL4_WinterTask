@@ -6,10 +6,10 @@ using namespace KamataEngine;
 void TitleScene::Initialize()
 {
 	// タイトルのスプライト
-	//textureHandle_ = TextureManager::Load("title.png");
-	//titleSprite_ = KamataEngine::Sprite::Create(textureHandle_, {0, 0});
+	textureHandle_ = TextureManager::Load("Title.png");
+	titleSprite_ = KamataEngine::Sprite::Create(textureHandle_, {0, 0});
 
-	//Botan_ = Audio::GetInstance()->LoadWave("Sounds/BossBotan.mp3");
+	Botan_ = Audio::GetInstance()->LoadWave("Sounds/Decision4.mp3");
 
 	// カメラの初期化
 	camera_.Initialize();
@@ -34,7 +34,7 @@ void TitleScene::Update()
 		if (Input::GetInstance()->TriggerKey(DIK_SPACE))
 		{
 
-			//Audio::GetInstance()->PlayWave(Botan_);
+			Audio::GetInstance()->PlayWave(Botan_);
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
@@ -42,7 +42,7 @@ void TitleScene::Update()
 		}
 		if (Input::GetInstance()->TriggerKey(DIK_T)) 
 		{
-			//Audio::GetInstance()->PlayWave(Botan_);
+			Audio::GetInstance()->PlayWave(Botan_);
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
@@ -80,7 +80,7 @@ void TitleScene::Draw()
 
 	Sprite::PreDraw(dxCommon->GetCommandList());
 
-	//titleSprite_->Draw();
+	titleSprite_->Draw();
 
 	Sprite::PostDraw();
 
@@ -94,5 +94,5 @@ TitleScene::~TitleScene()
 	//  フェード
 	delete fade_;
 	// タイトルのスプライト
-	//delete titleSprite_;
+	delete titleSprite_;
 }

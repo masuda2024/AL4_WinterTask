@@ -6,10 +6,10 @@ using namespace KamataEngine;
 
 void GameClear::Initialize()
 {
-	//textureHandle_ = TextureManager::Load("CLEAR.png");
-	//clearSprite_ = Sprite::Create(textureHandle_, {0, 0});
+	textureHandle_ = TextureManager::Load("GameClear.png");
+	clearSprite_ = Sprite::Create(textureHandle_, {0, 0});
 
-	//Botan_ = Audio::GetInstance()->LoadWave("Sounds/BossBotan.mp3");
+	Botan_ = Audio::GetInstance()->LoadWave("Sounds/Decision4.mp3");
 
 	// カメラの初期化
 	camera_.Initialize();
@@ -32,7 +32,7 @@ void GameClear::Update()
 		// タイトルシーンの終了条件
 		if (Input::GetInstance()->TriggerKey(DIK_E))
 		{
-			//Audio::GetInstance()->PlayWave(Botan_);
+			Audio::GetInstance()->PlayWave(Botan_);
 			// フェードアウト開始
 			phase_ = Phase::kFadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
@@ -66,7 +66,7 @@ void GameClear::Draw()
 
 	Sprite::PreDraw(dxCommon->GetCommandList());
 
-	// overSprite_->Draw();
+	clearSprite_->Draw();
 
 	Sprite::PostDraw();
 
@@ -79,5 +79,5 @@ GameClear::~GameClear()
 
 	//  フェード
 	delete fade_;
-	//delete clearSprite_;
+	delete clearSprite_;
 }
