@@ -31,6 +31,7 @@ void GameScene::Initialize()
 
 
 	//サウンド
+	//Springin
 	
 	//戦闘-4 大砲1
 	P_Cannon_ = Audio::GetInstance()->LoadWave("Sounds/Cannon1.mp3");
@@ -43,23 +44,10 @@ void GameScene::Initialize()
 
 
 
-	// playerHPのスプライト
-	playerhpHandle_ = TextureManager::Load("hp.png");
-	playerhpSprite_ = KamataEngine::Sprite::Create(playerhpHandle_, {0, 680});
-
-	_playerhpHandle_ = TextureManager::Load("hp_.png");
-	_playerhpSprite_ = KamataEngine::Sprite::Create(_playerhpHandle_, {0, 680});
+	
 
 
-
-	// enemyHPのスプライト
-	enemyhpHandle_ = TextureManager::Load("Ehp.png");
-	enemyhpSprite_ = KamataEngine::Sprite::Create(enemyhpHandle_, {1050, 0});
-
-	_enemyhpHandle_ = TextureManager::Load("Ehp_.png");
-	_enemyhpSprite_ = KamataEngine::Sprite::Create(_enemyhpHandle_, {1050, 0});
-
-
+	
 
 	//スカイドーム
 	modelskydome_ = Model::CreateFromOBJ("SkyDome", true);
@@ -69,6 +57,17 @@ void GameScene::Initialize()
 
 	#pragma region プレイヤー
 	
+
+	// playerHPのスプライト
+	playerhpHandle_ = TextureManager::Load("hp.png");
+	playerhpSprite_ = KamataEngine::Sprite::Create(playerhpHandle_, {0, 680});
+
+	_playerhpHandle_ = TextureManager::Load("hp_.png");
+	_playerhpSprite_ = KamataEngine::Sprite::Create(_playerhpHandle_, {0, 680});
+
+
+
+
 	//プレイヤー
 	modelPlayer_ = Model::CreateFromOBJ("player", true);
 	
@@ -100,6 +99,15 @@ void GameScene::Initialize()
 
 
 	#pragma region 敵
+
+	// enemyHPのスプライト
+	enemyhpHandle_ = TextureManager::Load("Ehp.png");
+	enemyhpSprite_ = KamataEngine::Sprite::Create(enemyhpHandle_, {1050, 0});
+
+	_enemyhpHandle_ = TextureManager::Load("Ehp_.png");
+	_enemyhpSprite_ = KamataEngine::Sprite::Create(_enemyhpHandle_, {1050, 0});
+
+
 
 	// 敵の3Dモデル
 	modelEnemy_ = Model::CreateFromOBJ("enemy", true);

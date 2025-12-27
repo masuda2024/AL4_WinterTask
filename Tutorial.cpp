@@ -5,8 +5,8 @@ using namespace KamataEngine;
 void Tutorial::Initialize()
 {
 	// チュートリアルのスプライト
-	//textureHandle_ = TextureManager::Load("explanation.png");
-	//tutorialSprite_ = KamataEngine::Sprite::Create(textureHandle_, {0, 0});
+	textureHandle_ = TextureManager::Load("Tutorial.png");
+	tutorialSprite_ = KamataEngine::Sprite::Create(textureHandle_, {0, 0});
 
 	Botan_ = Audio::GetInstance()->LoadWave("Sounds/Decision4.mp3");
 
@@ -65,7 +65,7 @@ void Tutorial::Draw()
 
 	Sprite::PreDraw(dxCommon->GetCommandList());
 
-	//tutorialSprite_->Draw();
+	tutorialSprite_->Draw();
 
 	Sprite::PostDraw();
 
@@ -83,6 +83,6 @@ Tutorial::~Tutorial()
 
 	if (tutorialSprite_)
 	{
-		//delete tutorialSprite_;
+		delete tutorialSprite_;
 	}
 }

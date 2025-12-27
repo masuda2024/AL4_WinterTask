@@ -36,8 +36,7 @@ public:
 private:
 	// 3Dモデルデータ
 	KamataEngine::Model* model_ = nullptr;
-	// モデルプレイヤー
-	// KamataEngine::Model* modelPlayer_ = nullptr;
+	
 	// カメラ
 	KamataEngine::Camera camera_;
 	// ワールドトランスフォーム

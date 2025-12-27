@@ -65,7 +65,7 @@ uint32_t GOVoiceHandle_ = 0;
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 {
 	//タイトルバー
-	KamataEngine::Initialize(L"LE2D_19_マスダ_アキヒロ_ナイトバトル");
+	KamataEngine::Initialize(L"LE2D_19_マスダ_アキヒロ_宇宙の戦い");
 	// ImGuiManagerインスタンスの取得
 	ImGuiManager* imguiManager = ImGuiManager::GetInstance();
 
@@ -101,24 +101,20 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)
 	gameClear->Initialize();
 
 	//BGM
-	/*
-	// タイトル
-	titleHandle_ = Audio::GetInstance()->LoadWave("Sounds/BossTitle.mp3");
+	//  タイトル_Springin->BGM1->フューチャー1
+	titleHandle_ = Audio::GetInstance()->LoadWave("Sounds/Future_1.mp3");
 	// タイトルの音楽を再生
 	TvoiceHandle_ = Audio::GetInstance()->PlayWave(titleHandle_, true);
 
-	//ゲーム
-	gameHandle_ = Audio::GetInstance()->LoadWave("Sounds/BossPlay.mp3");
+	// ゲーム_Springin->BGM1->RPGバトル4
+	gameHandle_ = Audio::GetInstance()->LoadWave("Sounds/RPG_Battle_04.mp3");
 
-	// ゲームクリア
-	gameCHandle_ = Audio::GetInstance()->LoadWave("Sounds/BossClear.mp3");
+	// ゲームクリア_Springin->BGM1->ラジオ_エンディングテーマ
+	gameCHandle_ = Audio::GetInstance()->LoadWave("Sounds/Springin_Radio_Ending.mp3");
+
+	// ゲームオーバー_Springin->BGM1->ラジオ_エンディングテーマ
+	gameOHandle_ = Audio::GetInstance()->LoadWave("Sounds/Springin_Radio_Ending.mp3");
 	
-	//ゲームオーバー
-	gameOHandle_ = Audio::GetInstance()->LoadWave("Sounds/BossOver.mp3");
-	
-
-	*/
-
 
 
 
@@ -222,7 +218,7 @@ void ChangeScene()
 		if (titleScene->IsFinishedT()) 
 		{
 			// 音声停止
-			//Audio::GetInstance()->StopWave(TvoiceHandle_);
+			Audio::GetInstance()->StopWave(TvoiceHandle_);
 
 			// シーンの変更
 			scene = Scene::kGame;
@@ -231,7 +227,7 @@ void ChangeScene()
 			gameScene->Initialize();
 
 			// ゲームシーンの音楽を再生
-			//GVoiceHandle_ = Audio::GetInstance()->PlayWave(gameHandle_, true);
+			GVoiceHandle_ = Audio::GetInstance()->PlayWave(gameHandle_, true);
 		}
 
 		if (titleScene->IsFinishedT2())
@@ -266,7 +262,7 @@ void ChangeScene()
 
 	case Scene::kGame:
 
-		// ゲームシーンでバリアが破壊された場合
+		// ゲームシーンでプレイヤーが破壊された場合
 		if (gameScene->IsFinishedGAME()) 
 		{
 
@@ -285,12 +281,12 @@ void ChangeScene()
 			gameOver->Initialize();
 
 			// ゲームオーバーシーンの音楽を再生
-			//GOVoiceHandle_ = Audio::GetInstance()->PlayWave(gameOHandle_, true);
+			GOVoiceHandle_ = Audio::GetInstance()->PlayWave(gameOHandle_, true);
 
 		} else if (gameScene->IsFinishedGAME2())
 		{
 			// 音声停止
-			//Audio::GetInstance()->StopWave(GVoiceHandle_);
+			Audio::GetInstance()->StopWave(GVoiceHandle_);
 
 			// プレイヤーが敵を倒した場合
 			// シーンの変更
@@ -306,16 +302,16 @@ void ChangeScene()
 			gameClear->Initialize();
 
 			// ゲームクリアシーンの音楽を再生
-			//GCVoiceHandle_ = Audio::GetInstance()->PlayWave(gameCHandle_, true);
+			GCVoiceHandle_ = Audio::GetInstance()->PlayWave(gameCHandle_, true);
 		}
 		break;
 
 	case Scene::kClear:
-
+		//ゲームクリアシーンが終了した場合
 		if (gameClear->IsFinishedC())
 		{
 			// 音声停止
-			//Audio::GetInstance()->StopWave(GCVoiceHandle_);
+			Audio::GetInstance()->StopWave(GCVoiceHandle_);
 
 			// シーンの変更
 			scene = Scene::kTitle;
@@ -330,17 +326,17 @@ void ChangeScene()
 			titleScene->Initialize();
 
 			// タイトルの音楽を再生
-			//TvoiceHandle_ = Audio::GetInstance()->PlayWave(titleHandle_, true);
+			TvoiceHandle_ = Audio::GetInstance()->PlayWave(titleHandle_, true);
 		}
 		break;
 
 	case Scene::kOver:
-
+		// ゲームオーバーシーンが終了した場合
 		if (gameOver->IsFinishedO())
 		{
 
 			// 音声停止
-			//Audio::GetInstance()->StopWave(GOVoiceHandle_);
+			Audio::GetInstance()->StopWave(GOVoiceHandle_);
 
 			// シーンの変更
 			scene = Scene::kTitle;
@@ -355,7 +351,7 @@ void ChangeScene()
 			titleScene->Initialize();
 
 			// タイトルの音楽を再生
-			//TvoiceHandle_ = Audio::GetInstance()->PlayWave(titleHandle_, true);
+			TvoiceHandle_ = Audio::GetInstance()->PlayWave(titleHandle_, true);
 		}
 		break;
 	}
