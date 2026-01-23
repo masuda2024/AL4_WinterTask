@@ -29,7 +29,7 @@ void Tutorial::Update()
 	case Phase::kMain:
 
 		// タイトルシーンの終了条件
-		if (Input::GetInstance()->TriggerKey(DIK_E))
+		if (Input::GetInstance()->TriggerKey(DIK_SPACE))
 		{
 			Audio::GetInstance()->PlayWave(Botan_);
 			// フェードアウト開始

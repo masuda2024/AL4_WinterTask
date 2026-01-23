@@ -22,12 +22,7 @@ void GameScene::Initialize()
 {
 	#pragma region
 	
-	
-	
 	#pragma endregion
-
-
-
 
 
 	//サウンド
@@ -37,22 +32,11 @@ void GameScene::Initialize()
 	P_Cannon_ = Audio::GetInstance()->LoadWave("Sounds/Cannon1.mp3");
 	
 
-
-
 	// デバックカメラの生成
 	debugCamera_ = new DebugCamera(100, 200);
 
-
-
-	
-
-
-	
-
 	//スカイドーム
 	modelskydome_ = Model::CreateFromOBJ("SkyDome", true);
-
-
 
 
 	#pragma region プレイヤー
@@ -155,10 +139,6 @@ void GameScene::Initialize()
 	cameraController_->SetMovableArea(cameraArea);
 
 
-
-
-
-
 	// フェーズインから開始
 	phase_ = Phase::kFadeIn;
 
@@ -176,8 +156,6 @@ void GameScene::Update()
 
 	//デバッグカメラの更新
 	debugCamera_->Update();
-
-
 
 	#pragma region プレイヤー
 
@@ -200,8 +178,6 @@ void GameScene::Update()
 		bullet->Update();
 	}
 	#pragma endregion
-
-
 
 	#pragma region 敵
 
@@ -322,8 +298,6 @@ void GameScene::Update()
 		break;
 	}
 	
-
-
 	
 #ifdef _DEBUG
 	if (Input::GetInstance()->TriggerKey(DIK_0))
@@ -503,7 +477,6 @@ void GameScene::CheckAllCollisions()
 	}
 #pragma endregion
 }
-
 
 
 

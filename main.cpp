@@ -221,26 +221,13 @@ void ChangeScene()
 			Audio::GetInstance()->StopWave(TvoiceHandle_);
 
 			// シーンの変更
-			scene = Scene::kGame;
-			// 新シーンの生成と初期化
-			gameScene = new GameScene();
-			gameScene->Initialize();
-
-			// ゲームシーンの音楽を再生
-			GVoiceHandle_ = Audio::GetInstance()->PlayWave(gameHandle_, true);
-		}
-
-		if (titleScene->IsFinishedT2())
-		{
-
-			// シーンの変更
 			scene = Scene::kTutorial;
-			// 旧シーンの解放
-			delete titleScene;
-			titleScene = nullptr;
 			// 新シーンの生成と初期化
 			tutorial = new Tutorial();
 			tutorial->Initialize();
+
+			// ゲームシーンの音楽を再生
+			GVoiceHandle_ = Audio::GetInstance()->PlayWave(gameHandle_, true);
 		}
 
 		break;
@@ -249,14 +236,13 @@ void ChangeScene()
 		{
 
 			// シーンの変更
-			scene = Scene::kTitle;
+			scene = Scene::kGame;
 			// 旧シーンの解放
 			delete tutorial;
 			tutorial = nullptr;
-			titleScene = nullptr;
 			// 新シーンの生成と初期化
-			titleScene = new TitleScene();
-			titleScene->Initialize();
+			gameScene = new GameScene();
+			gameScene->Initialize();
 		}
 		break;
 
