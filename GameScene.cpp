@@ -9,6 +9,8 @@
 #include "Enemy.h"
 #include "EnemyBullet.h"
 
+#include"imgui.h"
+
 
 using namespace KamataEngine;
 
@@ -157,6 +159,8 @@ void GameScene::Update()
 	//デバッグカメラの更新
 	debugCamera_->Update();
 
+	
+
 	#pragma region プレイヤー
 
 	// プレイヤーHP
@@ -194,11 +198,17 @@ void GameScene::Update()
 	enemy_->Update();
 	EnemyAttack();
 	// 敵の弾を更新
+	
 	for (EnemyBullet* Ebullet : E_bullets_) 
 	{
 		Ebullet->Update();
 	}
-	#pragma endregion
+	
+	
+
+
+
+#pragma endregion
 
 	// 天球の更新
 	skydome_->Update();
@@ -322,6 +332,117 @@ void GameScene::Update()
 }
 
 
+void GameScene::Draw()
+{
+	Sprite::PreDraw();
+	
+	_playerhpSprite_->Draw();
+	playerhpSprite_->Draw();
+
+	
+	_enemyhpSprite_->Draw();
+	enemyhpSprite_->Draw();
+
+
+	Sprite::PostDraw();
+
+
+	Model::PreDraw();
+	#pragma region プレイヤー
+
+	// 自キャラの描画 下記のフェーズのみ描画
+	if (phase_ == Phase::kPlay || phase_ == Phase::kFadeIn || phase_ == Phase::kEnemyDeath)
+	{
+		player_->Draw();
+	}
+	// パーティクル(プレイヤー)
+	if (phase_ == Phase::kDeath)
+	{
+		if ("deathParticle", true)
+		{
+			P_Particles_->Draw();
+		}
+	}
+
+	if (phase_ == Phase::kPlay) 
+	{
+		// スペースキーを押して弾を撃つ
+		if (Input::GetInstance()->TriggerKey(DIK_SPACE)) 
+		{
+			playerBulletLifeTime--;
+		}
+
+		// 弾の継続時間が0になるまで撃てる
+		if (playerBulletLifeTime > 0)
+		{
+			for (PlayerBullet* bullet : bullets_)
+			{
+				bullet->Draw();
+			}
+		}
+
+		// 弾の継続時間が0になったら継続時間をリセットする
+		if (playerBulletLifeTime <= 0)
+		{
+			// delete playerBullet_;
+			bullets_.clear();
+			playerBulletLifeTime = 2;
+		}
+	}
+
+	
+	#pragma endregion
+
+	#pragma region 敵
+
+	// 敵の描画 下記のフェーズのみ描画
+	if (phase_ == Phase::kPlay || phase_ == Phase::kFadeIn || phase_ == Phase::kDeath)
+	{
+		enemy_->Draw();
+	}
+	// パーティクル(敵)
+	if (phase_ == Phase::kEnemyDeath)
+	{
+		if ("E_deathParticle", true) 
+		{
+			E_Particles_->Draw();
+		}
+	}
+	// 弾の継続時間が0になるまで表示
+	if (phase_ == Phase::kPlay)
+	{
+		enemyBulletLifeTime--;
+		// 弾の継続時間が0になるまで撃てる
+		if (enemyBulletLifeTime > 0)
+		{
+			
+			for (EnemyBullet* Ebullet : E_bullets_)
+			{
+				Ebullet->Draw();
+			}
+			
+		}
+
+		// 弾の継続時間が0になったら継続時間をリセットする
+		if (enemyBulletLifeTime <= 0)
+		{
+
+			E_bullets_.clear();
+			
+			enemyBulletLifeTime = 200;
+		}
+	}
+
+	#pragma endregion
+
+	skydome_->Draw();
+
+	Model::PostDraw();
+
+
+}
+
+
 
 
 // プレイヤーの攻撃
@@ -348,7 +469,6 @@ void GameScene::PlayerAttack()
 // 敵の攻撃
 void GameScene::EnemyAttack()
 {
-
 	// 弾の速度
 	const float kEBulletSpeed = 1.0f;
 	Vector3 E_bulletVelocity = {kEBulletSpeed, 0.0f, 0.0f};
@@ -462,9 +582,10 @@ void GameScene::CheckAllCollisions()
 	AABB3 aabb5, aabb6;
 
 	aabb5 = player_->GetAABB3();
-
+	/**/
 	for (EnemyBullet* Ebullet : E_bullets_) 
 	{
+
 		// 敵の弾
 		aabb6 = Ebullet->GetAABB3();
 		if (IsCollition3(aabb5, aabb6))
@@ -480,113 +601,6 @@ void GameScene::CheckAllCollisions()
 
 
 
-void GameScene::Draw()
-{
-	Sprite::PreDraw();
-	
-	_playerhpSprite_->Draw();
-	playerhpSprite_->Draw();
-
-	
-	_enemyhpSprite_->Draw();
-	enemyhpSprite_->Draw();
-
-
-	Sprite::PostDraw();
-
-
-	Model::PreDraw();
-	#pragma region プレイヤー
-
-	// 自キャラの描画 下記のフェーズのみ描画
-	if (phase_ == Phase::kPlay || phase_ == Phase::kFadeIn || phase_ == Phase::kEnemyDeath)
-	{
-		player_->Draw();
-	}
-	// パーティクル(プレイヤー)
-	if (phase_ == Phase::kDeath)
-	{
-		if ("deathParticle", true)
-		{
-			P_Particles_->Draw();
-		}
-	}
-
-	if (phase_ == Phase::kPlay) 
-	{
-		// スペースキーを押して弾を撃つ
-		if (Input::GetInstance()->TriggerKey(DIK_SPACE)) 
-		{
-			playerBulletLifeTime--;
-		}
-
-		// 弾の継続時間が0になるまで撃てる
-		if (playerBulletLifeTime > 0)
-		{
-			for (PlayerBullet* bullet : bullets_)
-			{
-				bullet->Draw();
-			}
-		}
-
-		// 弾の継続時間が0になったら継続時間をリセットする
-		if (playerBulletLifeTime <= 0)
-		{
-			// delete playerBullet_;
-			bullets_.clear();
-			playerBulletLifeTime = 20;
-		}
-	}
-
-	
-	#pragma endregion
-
-	#pragma region 敵
-
-	// 敵の描画 下記のフェーズのみ描画
-	if (phase_ == Phase::kPlay || phase_ == Phase::kFadeIn || phase_ == Phase::kDeath)
-	{
-		enemy_->Draw();
-	}
-	// パーティクル(敵)
-	if (phase_ == Phase::kEnemyDeath)
-	{
-		if ("E_deathParticle", true) 
-		{
-			E_Particles_->Draw();
-		}
-	}
-	// 弾の継続時間が0になるまで表示
-	if (phase_ == Phase::kPlay)
-	{
-		enemyBulletLifeTime--;
-		// 弾の継続時間が0になるまで撃てる
-		if (enemyBulletLifeTime > 0)
-		{
-			for (EnemyBullet* Ebullet : E_bullets_)
-			{
-				Ebullet->Draw();
-			}
-		}
-
-		// 弾の継続時間が0になったら継続時間をリセットする
-		if (enemyBulletLifeTime <= 0)
-		{
-
-			E_bullets_.clear();
-			enemyBulletLifeTime = 200;
-		}
-	}
-
-	#pragma endregion
-
-	skydome_->Draw();
-
-	Model::PostDraw();
-
-
-}
-
 GameScene::~GameScene()
 { 
 	delete sprite_;
@@ -600,10 +614,13 @@ GameScene::~GameScene()
 
 
 	delete enemy_;
+	/*
 	for (EnemyBullet* Ebullet : E_bullets_) 
 	{
 		delete Ebullet;
-	}
+	}*/
+	
+	delete enemyBullet_;
 	delete E_Particles_;
 
 	delete skydome_;

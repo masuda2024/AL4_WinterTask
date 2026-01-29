@@ -105,6 +105,9 @@ private:
 
 	// 弾
 	std::list<EnemyBullet*> E_bullets_;
+	
+	
+	
 	// 速度
 	KamataEngine::Vector3 EnemyBulletVelocity_;
 	// 弾の寿命(フレーム数)

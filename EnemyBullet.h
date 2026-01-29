@@ -27,13 +27,24 @@ public:
 	// 速度
 	KamataEngine::Vector3 velocity_;
 
-	// int E_Shot = false;
+	
+
+
 
 	// 当たり判定サイズ
 	static inline const float kWidth = 0.8f;
 	static inline const float kHeight = 0.8f;
 	// ワールド座標を取得
 	KamataEngine::Vector3 GetWorldPosition();
+
+
+
+
+
+;
+	float shotT = 0.0f;
+	float shotC = 0.0f;
+
 
 
 
@@ -60,4 +71,8 @@ private:
 
 	// 速度
 	KamataEngine::Vector3 Bulletvelocity_;
+
+	int isShot = false;
+
+	
 };

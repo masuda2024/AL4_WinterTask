@@ -201,7 +201,6 @@ void Player::OnCollition3(const EnemyBullet* enemyBullet)
 		hp_ = 0;
 		isDead_ = true;
 		Audio::GetInstance()->PlayWave(Explosion_);
-		// 必要なら死亡時の処理（アニメ・音・フラグ等）
 	}
 
 }

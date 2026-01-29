@@ -70,6 +70,16 @@ public:
 	int E_GetMaxHP() const { return maxHP_; }
 	bool IsEnemyDead() const { return isenemyDead_; }
 
+
+
+	
+	EnemyBullet* E_Bullet_ = nullptr;
+
+	static const int kFireInterval = 60;
+	void AproachPhase();
+
+
+
 private:
 	///////////////
 	// 敵左右移動//
@@ -88,10 +98,9 @@ private:
 	float nextActionTime_ = 0.0f;
 
 	float startX_; // 初期位置X（戻るため）
-	//////////////////
-	// 敵左右移動終///
-	/////////////////
-
+	
+	// 敵左右移動終
+	
 	// ワールド変換データ
 	KamataEngine::WorldTransform worldTransform_;
 	// モデル
@@ -107,4 +116,7 @@ private:
 	int hp_ = maxHP_;
 
 	uint32_t Explosion_ = 0;
+
+	int32_t shotTimer = 0;
+	
 };

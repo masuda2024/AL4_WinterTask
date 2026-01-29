@@ -12,6 +12,8 @@
 using namespace KamataEngine;
 using namespace MathUtility;
 
+class EnemyBullet;
+
 void Enemy::Initialize(Model* model, Camera* camera, KamataEngine::Vector3& position)
 {
 	// NULLポイントチェック
@@ -35,17 +37,17 @@ void Enemy::Initialize(Model* model, Camera* camera, KamataEngine::Vector3& posi
 
 	worldTransform_.Initialize();
 
-	/////////////////////////////////////////
-	////敵左右移動追加////////////////////////
-	/////////////////////////////////////////
+	
+	//敵左右移動追加
+	
 	startX_ = position.x;
 
 	// 最初の「次の行動までの時間」を設定（2〜5秒）
-	nextActionTime_ = (rand() % 300) / 60.0f + 2.0f;
-	////////////////////////////////////////////
-	////敵左右移動追加終///////////////////////
-	/////////////////////////////////////////////
+	nextActionTime_ = (rand() % 300) / 6.0f + 2.0f;
+	
+	//敵左右移動追加終
 
+	shotTimer = 100;
 
 	// 戦闘 - 4 爆発1 
 	Explosion_ = Audio::GetInstance()->LoadWave("Sounds/Explosion1.mp3");
@@ -143,6 +145,18 @@ void Enemy::Draw()
 	model_->Draw(worldTransform_, *camera_);
 }
 
+void Enemy::AproachPhase()
+{
+	shotTimer--;
+	if (shotTimer == 0)
+	{
+		shotTimer = kFireInterval;
+	}
+}
+
+
+
+
 KamataEngine::Vector3 Enemy::GetWorldPosition()
 {
 	// ワールド座標を入れる変数
@@ -154,6 +168,8 @@ KamataEngine::Vector3 Enemy::GetWorldPosition()
 
 	return worldPos;
 }
+
+#pragma region 自キャラと敵
 
 AABB Enemy::GetAABB() 
 {
@@ -169,6 +185,8 @@ AABB Enemy::GetAABB()
 
 // 衝突応答
 void Enemy::OnCollition(const Player* player) { (void)player; }
+
+#pragma endregion
 
 #pragma region 自キャラの弾と敵
 
