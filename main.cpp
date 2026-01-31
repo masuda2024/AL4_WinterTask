@@ -217,23 +217,22 @@ void ChangeScene()
 
 		if (titleScene->IsFinishedT()) 
 		{
-			// 音声停止
-			Audio::GetInstance()->StopWave(TvoiceHandle_);
-
+			
 			// シーンの変更
 			scene = Scene::kTutorial;
 			// 新シーンの生成と初期化
 			tutorial = new Tutorial();
 			tutorial->Initialize();
 
-			// ゲームシーンの音楽を再生
-			GVoiceHandle_ = Audio::GetInstance()->PlayWave(gameHandle_, true);
+			
 		}
 
 		break;
 	case Scene::kTutorial:
 		if (tutorial->IsFinishedTU())
 		{
+			// 音声停止
+			Audio::GetInstance()->StopWave(TvoiceHandle_);
 
 			// シーンの変更
 			scene = Scene::kGame;
@@ -243,6 +242,8 @@ void ChangeScene()
 			// 新シーンの生成と初期化
 			gameScene = new GameScene();
 			gameScene->Initialize();
+			// ゲームシーンの音楽を再生
+			GVoiceHandle_ = Audio::GetInstance()->PlayWave(gameHandle_, true);
 		}
 		break;
 

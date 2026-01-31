@@ -36,8 +36,8 @@ void EnemyBullet::Initialize(KamataEngine::Model* model, Camera* camera, const K
 	isShot = false;
 	
 
-	shotT = 100.0f;
-	shotC = 110.0f;
+	shotT = 30.0f;
+	shotC = 40.0f;
 
 
 }
@@ -51,8 +51,8 @@ void EnemyBullet::Update()
 		shotC--;
 		if (shotC <= 0.0f) 
 		{
-			isShot = true;
-			shotT = 100.0f;
+		    isShot = true;
+			shotT = 30.0f;
 		}
 	}
 
@@ -63,86 +63,10 @@ void EnemyBullet::Update()
 		if (shotT <= 0.0f) 
 		{
 			isShot = false;
-			shotC = 110.0f;
+			shotC = 40.0f;
 		}
 	}
 
-	/*
-
-	
-	if (isShot == 1)
-	{
-		bulletCount++;
-		
-	}
-
-	if (bulletCount == 3)
-	{
-		isShot = false;
-		shotC--;
-		if (shotC == 0.0f)
-		{
-			shotC = 100.0f;
-			isShot = true;
-		}
-	}
-	
-
-
-
-
-	
-
-	
-
-
-
-*/
-
-	// 弾を移動
-	
-	/*
-	// 状態ごとに処理を分ける
-	switch (bulletState_) 
-	{
-	case EnemyBulletState::ON:
-		
-		
-		
-
-		// ランダム行動タイマー
-		ActionTimer_ += 0.1f / 30.0f;
-
-		isShot = true;
-
-		if (isShot == 1) 
-		{
-			
-		}
-
-		// ランダム時間経過したら左移動へ
-		if (ActionTimer_ >= NextActionTime_) 
-		{
-			bulletState_ = EnemyBulletState::OFF;
-			ActionTimer_ = 0;
-			// 次の発生時間を再設定
-			NextActionTime_ = (rand() % 300) / 30.0f + 2.0f;
-		}
-
-		break;
-	case EnemyBulletState::OFF:
-
-		ActionTimer_ += 0.1f / 30.0f;
-		if (ActionTimer_ >= NextActionTime_) 
-		{
-			bulletState_ = EnemyBulletState::ON;
-			ActionTimer_ = 0;
-			// 次の発生時間を再設定
-			NextActionTime_ = (rand() % 300) / 30.0f + 2.0f;
-		}
-		break;
-	}
-*/
 
 	// アフィン変換行列
 	worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
@@ -151,15 +75,14 @@ void EnemyBullet::Update()
 
 void EnemyBullet::Draw() 
 {
-	/*
-	if (bulletState_ == EnemyBulletState::ON)
-	{
-		
-
-	}*/
 	
 	// モデルの描画
-	model_->Draw(worldTransform_, *camera_);
+	
+	if (isShot == 1)
+	{
+		model_->Draw(worldTransform_, *camera_);
+	}
+	
 	// 終了なら何もしない
 	if (isFinished_)
 	{

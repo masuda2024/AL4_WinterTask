@@ -386,7 +386,7 @@ void GameScene::Draw()
 		{
 			// delete playerBullet_;
 			bullets_.clear();
-			playerBulletLifeTime = 2;
+			playerBulletLifeTime = 20;
 		}
 	}
 
